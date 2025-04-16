@@ -719,6 +719,58 @@
                 ]
             }
         },
+        "/base-backend/public/api/product": {
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Crear Product",
+                "operationId": "7ca82f45614d78a58e76ac701217be94",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/base-backend/public/api/rol": {
             "get": {
                 "tags": [
@@ -1604,6 +1656,39 @@
     },
     "components": {
         "schemas": {
+            "ProductRequest": {
+                "title": "ProductRequest",
+                "description": "Request model for Product information with filters and sorting",
+                "required": [
+                    "description",
+                    "name",
+                    "price_sale"
+                ],
+                "properties": {
+                    "description": {
+                        "description": "Descripción del producto",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Nombre del producto",
+                        "type": "string"
+                    },
+                    "price_sale": {
+                        "description": "Precio de venta del producto",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "status": {
+                        "description": "Estado del producto",
+                        "type": "string",
+                        "enum": [
+                            "Activo",
+                            "Inactivo"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
             "Permission": {
                 "title": "Permission",
                 "description": "Permission model",
@@ -1743,6 +1828,33 @@
                 },
                 "type": "object"
             },
+            "Product": {
+                "title": "Product",
+                "description": "Product model",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "LAPTOP"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "ryzen 7"
+                    },
+                    "price_sale": {
+                        "type": "string",
+                        "example": "1000"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Activo"
+                    }
+                },
+                "type": "object"
+            },
             "Rol": {
                 "title": "Rol",
                 "description": "Rol model",
@@ -1847,6 +1959,10 @@
         {
             "name": "Person",
             "description": "Person"
+        },
+        {
+            "name": "Product",
+            "description": "Product"
         },
         {
             "name": "Rol",
